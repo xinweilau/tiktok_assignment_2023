@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 services:
   rpc-server:
     build: rpc-server
@@ -21,6 +21,19 @@ services:
       - rpc-server
   etcd:
     image: quay.io/coreos/etcd:v3.5.0
-    command: ["etcd", "--advertise-client-urls", "http://etcd:2379", "--listen-client-urls", "http://0.0.0.0:2379"]
+    command:
+      [
+        "etcd",
+        "--advertise-client-urls",
+        "http://etcd:2379",
+        "--listen-client-urls",
+        "http://0.0.0.0:2379",
+      ]
     ports:
       - "2379:2379"
+  redis:
+    image: redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
