@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"log"
 
 	rpc "github.com/TikTokTechImmersion/assignment_demo_2023/rpc-server/kitex_gen/rpc/imservice"
@@ -9,7 +11,16 @@ import (
 	etcd "github.com/kitex-contrib/registry-etcd"
 )
 
+var rdb = &RedisClient{}
+
 func main() {
+	ctx := context.Background()
+
+	if err := rdb.InitRedis(ctx, "redis:6379", ""); err != nil {
+		errMsg := fmt.Sprintf("failed to init Redis client, err: %v", err)
+		log.Fatal(errMsg)
+	}
+
 	r, err := etcd.NewEtcdRegistry([]string{"etcd:2379"}) // r should not be reused.
 	if err != nil {
 		log.Fatal(err)
@@ -19,8 +30,7 @@ func main() {
 		ServiceName: "demo.rpc.server",
 	}))
 
-	err = svr.Run()
-	if err != nil {
+	if err = svr.Run(); err != nil {
 		log.Println(err.Error())
 	}
 }
