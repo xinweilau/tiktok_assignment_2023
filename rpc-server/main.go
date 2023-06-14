@@ -16,8 +16,8 @@ var rdb = &RedisClient{}
 func main() {
 	ctx := context.Background()
 
-	if err := rdb.InitRedis(ctx, "redis:6379", ""); err != nil {
-		errMsg := fmt.Sprintf("failed to init Redis client, err: %v", err)
+	if err := rdb.InitRedisClient(ctx, "redis:6379", ""); err != nil {
+		errMsg := fmt.Sprintf("Failed to initialise Redis client, err: %v", err)
 		log.Fatal(errMsg)
 	}
 

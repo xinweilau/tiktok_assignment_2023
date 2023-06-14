@@ -19,7 +19,7 @@ type Message struct {
 
 // InitRedis initializes a Redis client with the given address and password.
 // It returns an error if the client fails to connect to the Redis server.
-func (c *RedisClient) InitRedis(ctx context.Context, address, password string) error {
+func (c *RedisClient) InitRedisClient(ctx context.Context, address, password string) error {
 	client := redis.NewClient(&redis.Options{
 		Addr:     address,
 		Password: password,
